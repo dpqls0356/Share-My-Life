@@ -1,19 +1,36 @@
+import { useEffect, useState } from "react"
+import { createGlobalStyle,styled } from "styled-components"
+import reset from "styled-reset"
+import {auth} from "./firebase.tsx"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import Layout from "./components/layout"
 import Home from "./routes/home.tsx"
 import Profile from "./routes/profile.tsx"
 import Login from "./routes/login.tsx"
 import CreateAccount from "./routes/create-account.tsx"
-import { createGlobalStyle } from "styled-components"
-import reset from "styled-reset"
-import { useEffect, useState } from "react"
 import LoadingScreen from "./components/loading-screen.tsx"
+import ProtectedRoute from "./components/protected-route.tsx"
 
 const router = createBrowserRouter([
   // /에 레이아웃이 들어가고 path에 따라 outlet컴포넌트는 해당 path컴포넌트로 대체된다.
-  {
+  // {
+  //   path:"/",
+  //   element:<Layout/>,
+  //   children:[
+  //     {
+  //       path:"",
+  //       element:<ProtectedRoute><Home/></ProtectedRoute>
+  //     },
+  //     {
+  //       path:"profile",
+  //       element:<ProtectedRoute><Profile/></ProtectedRoute>
+  //     }  
+  // ]
+  // }, 
+  // 또는 아래 방식
+    {
     path:"/",
-    element:<Layout/>,
+    element:<ProtectedRoute><Layout/></ProtectedRoute>,
     children:[
       {
         path:"",
@@ -41,29 +58,33 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box; 
   } 
   body{
-    background-color: black;
-    color: white;
+    color: #009dff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
 `
-
+const Wrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+`
 
 function App() {
   const [isLoading,setIsLoading] = useState(true);
   const init = async()=>{
     //firebase 로그인 여부와 유저 확인
-    setTimeout(()=>setIsLoading(false),2000);
-    // setIsLoading(false);
+    await auth.authStateReady()
+    // setTimeout(()=>setIsLoading(false),2000);
+    setIsLoading(false);
   }
   useEffect(()=>{
     init();
   },[])
   return (
-    <>
+    <Wrapper>
     <GlobalStyles/>
     {isLoading?<LoadingScreen/>:<RouterProvider router={router}/>}
-    </>
+    </Wrapper>
   )
 }
 
