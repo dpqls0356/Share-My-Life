@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { createGlobalStyle,styled } from "styled-components"
 import reset from "styled-reset"
 import {auth} from "./firebase.tsx"
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import {  RouterProvider, createBrowserRouter } from "react-router-dom"
 import Layout from "./components/layout"
 import Home from "./routes/home.tsx"
 import Profile from "./routes/profile.tsx"
@@ -10,6 +10,7 @@ import Login from "./routes/login.tsx"
 import CreateAccount from "./routes/create-account.tsx"
 import LoadingScreen from "./components/loading-screen.tsx"
 import ProtectedRoute from "./components/protected-route.tsx"
+import AuthProvider from "./components/auth-provider.tsx"
 
 const router = createBrowserRouter([
   // /에 레이아웃이 들어가고 path에 따라 outlet컴포넌트는 해당 path컴포넌트로 대체된다.
@@ -42,13 +43,14 @@ const router = createBrowserRouter([
       }  
   ]
   },
+
   //따로 만드는 이유 : 홈화면과 프로필화면은 인증된 사용자만 접근 가능하기때문
   {
     path:"/login",
-    element:<Login/>  
+    element:<AuthProvider><Login/></AuthProvider>  
   },{
     path:"/create-account",
-    element:<CreateAccount/>
+    element:<AuthProvider><CreateAccount/></AuthProvider>
   }
 ])
 
@@ -72,18 +74,25 @@ const Wrapper = styled.div`
 function App() {
   const [isLoading,setIsLoading] = useState(true);
   const init = async()=>{
+
     //firebase 로그인 여부와 유저 확인
     await auth.authStateReady()
+    
     // setTimeout(()=>setIsLoading(false),2000);
-    setIsLoading(false);
+    setIsLoading(false);    
+
   }
   useEffect(()=>{
     init();
   },[])
   return (
     <Wrapper>
-    <GlobalStyles/>
-    {isLoading?<LoadingScreen/>:<RouterProvider router={router}/>}
+      <GlobalStyles/>
+      {
+        isLoading?
+        <LoadingScreen/>:
+          <RouterProvider router={router}/>
+      }
     </Wrapper>
   )
 }
