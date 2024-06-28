@@ -90,7 +90,7 @@ export default function PostTweetForm(){
             setLoading(true);
             //컬렉션, 경로에 doc을 만들지 설정하고 넣을 데이터를 보낸다.
             // tweets에  고유 아이디를 가지는 tweet들이 생성
-            const doc = await addDoc(collection(db,"teewts"),{
+            const doc = await addDoc(collection(db,"tweets"),{
                 tweet,
                 createdAt : Date.now(),
                 username : user.displayName||"Anonymous",
