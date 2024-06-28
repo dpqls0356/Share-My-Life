@@ -1,5 +1,5 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
-import { useState, } from "react"
+import { createUserWithEmailAndPassword, updateProfile,sendEmailVerification } from "firebase/auth"
+import { useState, useEffect} from "react"
 import {auth} from "../firebase.tsx";
 import { useNavigate ,Link} from "react-router-dom";
 import { FirebaseError } from "firebase/app";
@@ -36,6 +36,7 @@ export default function CreateAccount(){
             setLoading(true);
             //계정생성하기
             const credentials =  await createUserWithEmailAndPassword(auth,email,password);
+            // await sendEmailVerification(credentials.user);
             //사용자 이름 업데이트
             await updateProfile(credentials.user,{
                 displayName:name,

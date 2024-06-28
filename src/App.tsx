@@ -29,7 +29,7 @@ const router = createBrowserRouter([
   // ]
   // }, 
   // 또는 아래 방식
-    {
+      {
     path:"/",
     element:<ProtectedRoute><Layout/></ProtectedRoute>,
     children:[
@@ -43,7 +43,6 @@ const router = createBrowserRouter([
       }  
   ]
   },
-
   //따로 만드는 이유 : 홈화면과 프로필화면은 인증된 사용자만 접근 가능하기때문
   {
     path:"/login",

@@ -1,12 +1,16 @@
 import { getRedirectResult } from "firebase/auth";
-import { useEffect,  } from "react";
+import { useEffect,   } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase"; // Firebase 인증 객체를 가져옵니다.
 
 export default function  AuthProvider({children,}:{children:React.ReactNode}) {
     const navigate = useNavigate();
-
     useEffect(() => {
+        //로그인된 유저는 접근할 수 없도록 처리
+        const user = auth.currentUser;
+        if(user){
+            navigate("/");
+        }
         // Firebase 리다이렉션 결과 처리
         getRedirectResult(auth)
             .then((result) => {
@@ -18,8 +22,7 @@ export default function  AuthProvider({children,}:{children:React.ReactNode}) {
             .catch((error) => {
                 console.error("리디렉션 후 인증 오류:", error);
             });
-    },[navigate]);
-
+    },[]);
     // 인증 상태에 따라 자식 컴포넌트 렌더링
     return children;
 }
