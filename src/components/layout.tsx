@@ -9,7 +9,10 @@ const Wrapper = styled.div`
     grid-template-columns: 1fr 4fr;
     padding:50px 0px;
     width: 100%;
+    max-height: 100vh;
     max-width: 860px;
+    overflow: hidden;
+
 `
 const Menu = styled.div`
     display: flex;
@@ -38,6 +41,12 @@ const MenuItem = styled.div`
         }
     }
 `
+const ContentArea = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto; /* 자식 요소가 높이를 초과할 경우 세로 스크롤 활성화 */
+`;
 export default function Layout(){
     const navigate = useNavigate();
     const onLogout = async ()=>{
@@ -73,7 +82,9 @@ export default function Layout(){
                     </Link>
                 </MenuItem>
             </Menu>
-        <Outlet/>
+        <ContentArea>
+            <Outlet />
+        </ContentArea>
         </Wrapper>
     )
 }

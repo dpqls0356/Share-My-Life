@@ -4,9 +4,8 @@ import Timeline from "../components/timeline";
 const Wrapper  =styled.div`
     width: 90%;
     display: grid;
-    gap: 50px;
-    overflow-y: scroll;
-    grid-template-rows: 1fr 5fr;
+    gap:40px;
+    max-height: 100%;
 `
 export default function Home(){    
     return (

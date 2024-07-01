@@ -99,7 +99,7 @@ export default function PostTweetForm(){
             //파일이 있는 경우 파일 업로드
             if(file){
                 //이미지가 저장될 경로 설정 - 이미지 이름을 tweet의 id로 설정 tweets-> user별로 폴더생성 / tweet id로 이미지 이름 지정
-                const locationRef = ref(storage,`tweets/${user.uid}-${user.displayName}/${doc.id}`);
+                const locationRef = ref(storage,`tweets/${user.uid}/${doc.id}`);
                 const result = await uploadBytes(locationRef,file);
                 const url = await getDownloadURL(result.ref);
                 await updateDoc(doc,{
