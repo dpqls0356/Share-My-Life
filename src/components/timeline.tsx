@@ -16,7 +16,6 @@ const Wrapper = styled.div`
     display: flex;
     grid-template-columns: 10px;
     flex-direction: column;
-    flex: 1;
     overflow-y: auto;
 
 `

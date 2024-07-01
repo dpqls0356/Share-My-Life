@@ -5,7 +5,7 @@ const Wrapper  =styled.div`
     width: 90%;
     display: grid;
     gap:40px;
-    max-height: 100%;
+    overflow-y: auto;
 `
 export default function Home(){    
     return (
