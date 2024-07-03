@@ -9,22 +9,21 @@ import { onAuthStateChanged,getRedirectResult } from "firebase/auth";
 import { useNavigate } from "react-router-dom"
 
 const Button = styled.button`
+    margin-top:10px;
     font-size: 16px;
     width: 100%;
-    background-color:white;
-    border: 1px solid #1d9bf0;
-    color:#1d9bf0;
+    background-color:var(--color-gray);
+    border: none;
+    color:black;
     cursor: pointer;
     &:hover {
-      background-color:#1d9bf0;
-      color:white;
+      background-color:#e0dede;
     }
-    border-radius: 50px;
     gap: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
+    padding: 13px 20px;
 `
 
 export default function GithubButton(){
@@ -46,9 +45,10 @@ export default function GithubButton(){
             if (e instanceof FirebaseError) {
                 // Firebase 에러 코드에 따른 메시지 설정
                 setError("login error");
+                console.log(e); 
             }
         }
-    }
+       }
     return <Button onClick={onClick}>
     <FontAwesomeIcon icon={faGithub} />
         Continue With Github

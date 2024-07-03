@@ -3,7 +3,7 @@ import {auth} from "../firebase.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import {Wrapper,Title,Form,Input,Switcher,Error} from "../components/auth-components.ts"
+import {Wrapper,Title,Form,Input,Switcher,Error,Divide, Line,Text} from "../components/auth-components.ts"
 import GithubButton from "../components/github-btn.tsx";
 
 export default function Login(){
@@ -60,13 +60,18 @@ export default function Login(){
     // },[])
     return(
         <Wrapper>
-            <Title>Login Twitter</Title>
+            <Title>Login</Title>
             {error!==""?<Error>{error}</Error>:null}
             <Form onSubmit={onSumbit}>
                 <Input onChange={onChange} value={email} name="email" placeholder="Email" type="email" required/>
                 <Input onChange={onChange} value={password} name="password" placeholder="Password" type="password" required/>
                 <Input type="submit" value={loading?"Loading...":"Login"}/>
             </Form>
+            <Divide>
+                <Line></Line>
+                <Text>또는</Text>
+                <Line></Line>
+            </Divide>
             <GithubButton/>
             <Switcher>
                 Don't have an account? <Link to="/create-account">Create one &rarr;</Link>

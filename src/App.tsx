@@ -58,14 +58,20 @@ const GlobalStyles = createGlobalStyle`
   *{
     box-sizing: border-box; 
   } 
+  :root{
+  --color-yellow: #fce364;
+  --color-gray:#F0F0F0;
+  --color-dark_gray:#d8d8d8;
+  
+  }
   body{
-    color: #009dff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
 `
 const Wrapper = styled.div`
   height: 100vh;
+  max-width:100%;
   display: flex;
   justify-content: center;
 `

@@ -68,7 +68,7 @@ export default function CreateAccount(){
     // },[])
     return(
         <Wrapper>
-            <Title>Join Twitter</Title>
+            <Title>Join</Title>
             {error!==""?<Error>{error}</Error>:null}
             <Form onSubmit={onSumbit}>
                 <Input onChange={onChange} value={name} name="name"  placeholder="Name" type="text" required/>

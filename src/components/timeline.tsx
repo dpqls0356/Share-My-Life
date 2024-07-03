@@ -13,6 +13,7 @@ export interface ITweet{
     createdAt:number;
 }
 const Wrapper = styled.div`
+ 
     display: flex;
     grid-template-columns: 10px;
     flex-direction: column;
@@ -53,6 +54,7 @@ export default function Timeline(){
                 };
            })
             setTweet(TweetsInDB);
+            console.log(tweets);
         });
         }
     fetchTweets();

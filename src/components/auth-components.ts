@@ -8,14 +8,13 @@ export const Wrapper = styled.div`
   width: 420px;
   padding: 50px 0px;
 `;
-
+ 
 export const Title = styled.h1`
   font-size: 42px;
 `;
 
 export const Form = styled.form`
   margin-top: 50px;
-  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -23,19 +22,21 @@ export const Form = styled.form`
 `;
 
 export const Input = styled.input`
-  padding: 10px 20px;
+  padding: 13px 20px;
   width: 100%;
   font-size: 16px;
-  border-radius: 50px;
   border:none;
+  border-bottom:1px solid var(--color-dark_gray);
+  &:focus{
+  outline:none;
+  }
   &[type="submit"] {
-    background-color:white;
-    border: 1px solid #1d9bf0;
-    color:#1d9bf0;
+  margin:20px 0px 10px 0px;
+    background-color:var(--color-yellow);
+    color:black;
     cursor: pointer;
     &:hover {
-      background-color:#1d9bf0;
-      color:white;
+      background-color:#ffdc2d;
     }
   }
 `;
@@ -47,7 +48,24 @@ export const Error = styled.span`
 
 export const Switcher = styled.span`
   margin-top: 20px;
+  color:black;
   a {
-    color: #1d9bf0;
+    color: #e5bb02;
   }
 `;
+export const Divide=styled.div`
+  margin:10px 0px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+`
+export const Line = styled.div`
+  width:45%;
+  height:0.5px;
+  background-color:var(--color-dark_gray);
+`
+export const Text =styled.p`
+  margin:0px 5px;
+  color :var(--color-dark_gray);
+`
