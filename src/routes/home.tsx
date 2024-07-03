@@ -1,24 +1,20 @@
 import PostTweetForm from "../components/post-tweet-form";
 import {styled} from "styled-components"
 import Timeline from "../components/timeline";
-const Header = styled.div`
-    padding-top:30px;
-`
+import Header from "../components/header";
+
 const Wrapper  =styled.div`
-   border-right:3px solid var(--color-yellow);
-    border-left:3px solid var(--color-yellow);
-    padding: 0px 50px;
-    width: 90%;
-    display: grid;
-    gap:40px;
+    border-left:1px solid var(--color-yellow);
+    border-right:1px solid var(--color-yellow);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
 `
 export default function Home(){    
     return (
         <Wrapper>
-            <Header>Home</Header>
-            <PostTweetForm>
-            </PostTweetForm>
+            <Header title="Home"/>
             <Timeline></Timeline>
         </Wrapper>
     )

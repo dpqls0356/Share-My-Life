@@ -8,9 +8,7 @@ const Wrapper = styled.div`
     display: grid;
     grid-template-columns: 3fr 1fr;
     padding :20px;
-    border: 1.5px solid #1d9bf0;
-    border-radius:15px;
-    margin-bottom: 10px;
+    border-bottom: 1px solid var(--color-yellow);
 `
 const Column = styled.div`
     

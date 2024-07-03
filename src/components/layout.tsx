@@ -3,11 +3,13 @@ import { Outlet,Link } from "react-router-dom";
 import {styled} from "styled-components"
 import {auth} from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import PostTweetForm from "./post-tweet-form";
 const Wrapper = styled.div`
-border-left:3px solid var(--color-yellow);
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
-    width: 90%;
+    width: 100%;
     max-height: 100vh;
     max-width: 100%;
     overflow: hidden;
@@ -34,7 +36,7 @@ const NavItem = styled.div`
     border: 2px solid 1d9bf0;
     height: 50px;
     border-radius:50% ;
-    font-weight:900;
+    font-weight:700;
     svg{
         width:30px;
     }
@@ -51,13 +53,12 @@ const NavSvg = styled.div`
 margin-right:14px;
 `
 const MiniProfile=styled.div`
-border-top:3px solid var(--color-yellow);
-display:flex;
-align-items:center;
-width:100%;
-gap:10px;
-padding:10px 0px;
-padding-left:20px;
+    /* border-top:3px solid var(--color-yellow); */
+    display:flex;
+    align-items:center;
+    width:100%;
+    gap:10px;
+    padding:10px 20px;
     svg{
         color:black;
         width:30px;
@@ -67,11 +68,12 @@ padding-left:20px;
 const MinProfileCol=styled.div`
 `
 const UserImage = styled.img`
-    width:50px;
-    heigth:50px;
+    width:40px;
+    height:40px;
+    border-radius: 50%;
 `
 const UserName = styled.div`
-    font-weight:900;
+    font-weight:700;
     margin-right:50px;
 `
 const UserEmail = styled.div`
@@ -79,10 +81,24 @@ const UserEmail = styled.div`
     color:gray;
     font-size:13px;
 `
-
+const PostFormOpenBtn = styled.button`
+    background-color:var(--color-yellow) ;
+    width: 90%;
+    padding:10px 30px;
+    font-size: 15px;
+    font-weight: 900;
+    border: none;
+    text-align: center;
+    border-radius: 30px;
+`
+const Line = styled.div`
+    height: 1px;
+    width: 90%;
+    background-color: var(--color-yellow);
+`
 export default function Layout(){
     const user = auth.currentUser;
-    
+    const [isShowPostForm,setIsShowPostForm] = useState(false);
     const navigate = useNavigate();
     const onLogout = async ()=>{
         const ok = confirm("Are you sure you want to log out?")
@@ -91,11 +107,14 @@ export default function Layout(){
             navigate("/login");
         }
     }
+    const showPostForm=()=>{
+        setIsShowPostForm((current)=>!current);
+    }
     return (
         <Wrapper>
             <Menu>
                 <Header>
-                <img width="85" height="85" src="../../public/img/logo.png" alt="dog"/>
+                    <img src="/src/assets/img/logo.png" />
                 </Header>
                 <Nav>
                     <StyledLink to="/profile">
@@ -141,6 +160,28 @@ export default function Layout(){
                             <NavName>Bookmarks</NavName>
                         </NavItem>
                     </StyledLink>
+                    <Line></Line>
+                    <StyledLink to="/">
+                        <NavItem>
+                            <NavSvg>   
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                </svg>
+                            </NavSvg>
+                            <NavName>Notification</NavName>
+                        </NavItem>
+                    </StyledLink>
+                    <StyledLink to="/">
+                        <NavItem>
+                            <NavSvg>   
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </NavSvg>
+                            <NavName>More</NavName>
+                        </NavItem>
+                    </StyledLink>
+                    <PostFormOpenBtn onClick={showPostForm}>Share My Love</PostFormOpenBtn>
                 </Nav>
                 <MiniProfile>
                         <MinProfileCol>
@@ -170,6 +211,9 @@ export default function Layout(){
             </Menu>
             <Outlet />
             <Menu></Menu>
+            {
+                isShowPostForm?<PostTweetForm closePostForm={setIsShowPostForm}/>:null
+            }
         </Wrapper>
     )
 }
