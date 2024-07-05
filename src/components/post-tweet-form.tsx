@@ -1,42 +1,27 @@
 import { addDoc, collection, updateDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { styled } from "styled-components";
 import { db, auth, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Wrapper = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: center;
   border-bottom: 1px solid var(--color-yellow);
 `;
 
 const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   padding: 10px 20px;
 `;
 const FormRow = styled.div``;
 const FormCol = styled.div``;
 const UserPhoto = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
 `;
-const FormHeader = styled.div`
-  padding: 10px 0px;
-  border-bottom: 1px solid var(--color-yellow);
-`;
-const ClosePostFormBtn = styled.div`
-  svg {
-    width: 25px;
-    height: 25px;
-  }
-`;
+
 const TextArea = styled.textarea`
-  padding-left: 20px;
+  padding: 0px 0px 10px 20px;
   border: none;
   font-size: 16px;
   color: rgb(0, 0, 0);
@@ -50,8 +35,8 @@ const TextArea = styled.textarea`
     outline: none;
     border-color: var(--color-yellow);
   }
-  height: auto;
   width: 100%;
+  overflow: hidden; /* 스크롤바 숨김 */
 `;
 
 const AttachFileButton = styled.label`
@@ -85,15 +70,38 @@ const SubmitBtn = styled.input`
   font-weight: 600;
   cursor: pointer;
 `;
+const PreviewImage = styled.img`
+  padding-left: 20px;
+  max-width: 100%;
+  max-height: 300px;
+  margin-top: 10px;
+`;
 export default function PostTweetForm() {
   const user = auth.currentUser;
   const MAX_FILE_SIZE_MB = 5 * 1024 * 1024;
   const [isLoding, setLoading] = useState(false);
   const [tweet, setTweet] = useState("");
   const [file, setFile] = useState<File | null>(null); //파일이거나 null
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto"; // 먼저 높이를 auto로 설정
+      textarea.style.height = `${textarea.scrollHeight}px`; // scrollHeight에 따라 높이 조절
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight(); // 컴포넌트가 마운트될 때 초기 높이 설정
+  }, [tweet]);
+
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
+    adjustTextareaHeight(); // 입력할 때마다 높이 조절
   };
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     /*
         input은 복수의 파일을 업로드하게 해준다. 
@@ -105,6 +113,12 @@ export default function PostTweetForm() {
         alert("사진 크기가 너무 큽니다.");
       } else {
         setFile(files[0]);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(files[0]);
+        console.log("not modal" + imagePreview);
       }
     }
   };
@@ -136,13 +150,14 @@ export default function PostTweetForm() {
         await updateDoc(doc, {
           photo: url,
         });
-        setTweet("");
         setFile(null);
+        setImagePreview(null);
       }
     } catch (e) {
       console.log(e);
     } finally {
       setLoading(false);
+      setTweet("");
     }
   };
   const closePostForm = () => {
@@ -165,15 +180,23 @@ export default function PostTweetForm() {
           <FormCol style={{ flex: "1" }}>
             <FormRow>
               <TextArea
+                ref={textareaRef}
+                rows={1}
                 required
-                maxLength={180}
                 onChange={onChange}
                 value={tweet}
                 placeholder="What's happening?"
               />
+              {imagePreview && (
+                <PreviewImage src={imagePreview} alt="Preview" />
+              )}
             </FormRow>
             <FormRow
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "10px",
+              }}
             >
               <div>
                 <AttachFileInput

@@ -12,8 +12,8 @@ const Wrapper = styled.div`
 `;
 const PostCol = styled.div`
   .user-photo {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
   }
 `;

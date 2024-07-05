@@ -4,17 +4,20 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PostTweetFormModal from "./post-tweet-form-modal";
+
+//Board를 하나 더 두는 이유. Board가 전체판, Wrapper는 패딩이 있는 상태의 판 = 이 안에 요소들이 들어감
+//Board가 없으면 스크롤바가 Wrapper에게 생겨 원하는 방식으로 생성이 안된다.
 const Board = styled.div`
   min-width: 100vw;
   min-height: 100vh;
 `;
 const Wrapper = styled.div`
+  overflow-y: auto;
   padding: 0px 10%;
   display: grid;
   grid-template-columns: 1fr 5fr;
   width: 100%;
   height: 100vh;
-  overflow-y: auto;
 `;
 const Menu = styled.div`
   height: 100vh;
@@ -293,7 +296,10 @@ export default function Layout() {
         </Menu>
         <Outlet />
         {isShowPostForm ? (
-          <PostTweetFormModal closePostForm={setIsShowPostForm} />
+          <PostTweetFormModal
+            className="modal"
+            closePostForm={setIsShowPostForm}
+          />
         ) : null}
       </Wrapper>
     </Board>

@@ -1,5 +1,5 @@
 import { addDoc, collection, updateDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled } from "styled-components";
 import { db, auth, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -96,16 +96,39 @@ const SubmitBtn = styled.input`
   font-weight: 600;
   cursor: pointer;
 `;
+const ModalPreviewImage = styled.img`
+  padding-left: 20px;
+  max-width: 100%;
+  max-height: 300px;
+  margin-top: 10px;
+`;
 export default function PostTweetFormModal(props) {
   const user = auth.currentUser;
   const MAX_FILE_SIZE_MB = 5 * 1024 * 1024;
   const [isLoding, setLoading] = useState(false);
   const [tweet, setTweet] = useState("");
   const [file, setFile] = useState<File | null>(null); //파일이거나 null
+  const modalTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const [modalImagePreview, setImagePreview] = useState<string | null>(null);
+
+  const adjustTextareaHeight = () => {
+    const textarea = modalTextareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto"; // 먼저 높이를 auto로 설정
+      textarea.style.height = `${textarea.scrollHeight}px`; // scrollHeight에 따라 높이 조절
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight(); // 컴포넌트가 마운트될 때 초기 높이 설정
+  }, [tweet]);
+
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
+    adjustTextareaHeight(); // 입력할 때마다 높이 조절
   };
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onModalFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     /*
         input은 복수의 파일을 업로드하게 해준다. 
         그러기에 하나의 파일만 얻기위해서 길이가 1이고 파일이 존재할 떄 file의 값을 files[0]으로 바꾼다.
@@ -116,6 +139,12 @@ export default function PostTweetFormModal(props) {
         alert("사진 크기가 너무 큽니다.");
       } else {
         setFile(files[0]);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(files[0]);
+        console.log("modal" + modalImagePreview);
       }
     }
   };
@@ -194,19 +223,23 @@ export default function PostTweetFormModal(props) {
           <FormCol style={{ flex: "1" }}>
             <FormRow>
               <TextArea
+                ref={modalTextareaRef}
+                rows={1}
                 required
-                maxLength={180}
                 onChange={onChange}
                 value={tweet}
                 placeholder="What's happening?"
               />
+              {modalImagePreview && (
+                <ModalPreviewImage src={modalImagePreview} alt="Preview" />
+              )}
             </FormRow>
             <FormRow
               style={{ display: "flex", justifyContent: "space-between" }}
             >
               <div>
                 <AttachFileInput
-                  onChange={onFileChange}
+                  onChange={onModalFileChange}
                   id="file"
                   type="file"
                   accept="image/*"

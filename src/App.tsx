@@ -72,7 +72,6 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box; 
   } 
   :root{
-  padding:0px 15%;
   --color-yellow: #fce364;
   --color-gray:#F0F0F0;
   --color-dark_gray:#d8d8d8;
