@@ -5,17 +5,28 @@ import { db, auth, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Wrapper = styled.div`
+  background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid var(--color-yellow);
+  width: 100%;
+  position: absolute;
+  left: 0%;
+  z-index: 1000;
 `;
 
 const Form = styled.form`
-  width: 100%;
+  position: absolute;
+  top: 20%;
+  width: 35%;
+  min-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: white;
+  border-radius: 30px;
+  height: fit-content;
   padding: 10px 20px;
 `;
 const FormRow = styled.div``;
@@ -85,7 +96,7 @@ const SubmitBtn = styled.input`
   font-weight: 600;
   cursor: pointer;
 `;
-export default function PostTweetForm() {
+export default function PostTweetFormModal(props) {
   const user = auth.currentUser;
   const MAX_FILE_SIZE_MB = 5 * 1024 * 1024;
   const [isLoding, setLoading] = useState(false);
@@ -152,6 +163,24 @@ export default function PostTweetForm() {
   return (
     <Wrapper>
       <Form onSubmit={onSubmit}>
+        <FormHeader>
+          <ClosePostFormBtn onClick={closePostForm}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </ClosePostFormBtn>
+        </FormHeader>
         <main
           style={{ display: "flex", paddingTop: "20px", marginBottom: "10px" }}
         >
