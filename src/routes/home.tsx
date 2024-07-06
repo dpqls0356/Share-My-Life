@@ -1,4 +1,4 @@
-import PostTweetForm from "../components/post-tweet-form";
+import UploadPostForm from "../components/upload-post-form";
 import { styled } from "styled-components";
 import Timeline from "../components/timeline";
 import Header from "../components/header";
@@ -20,7 +20,7 @@ export default function Home() {
     <Wrapper>
       <Main>
         <Header title="Home" />
-        <PostTweetForm />
+        <UploadPostForm />
         <Timeline></Timeline>
       </Main>
       <Sidebar />

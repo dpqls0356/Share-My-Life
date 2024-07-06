@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import PostTweetFormModal from "./post-tweet-form-modal";
+import UploadPostFormModal from "./upload-post-form-modal";
 
 //Board를 하나 더 두는 이유. Board가 전체판, Wrapper는 패딩이 있는 상태의 판 = 이 안에 요소들이 들어감
 //Board가 없으면 스크롤바가 Wrapper에게 생겨 원하는 방식으로 생성이 안된다.
@@ -168,7 +168,7 @@ export default function Layout() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-6"
+                    className="size-6"
                   >
                     <path
                       stroke-linecap="round"
@@ -194,7 +194,7 @@ export default function Layout() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-6"
+                    className="size-6"
                   >
                     <path
                       stroke-linecap="round"
@@ -216,7 +216,7 @@ export default function Layout() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-6"
+                    className="size-6"
                   >
                     <path
                       stroke-linecap="round"
@@ -296,8 +296,7 @@ export default function Layout() {
         </Menu>
         <Outlet />
         {isShowPostForm ? (
-          <PostTweetFormModal
-            className="modal"
+          <UploadPostFormModal
             closePostForm={setIsShowPostForm}
           />
         ) : null}

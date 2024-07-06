@@ -76,7 +76,7 @@ const PreviewImage = styled.img`
   max-height: 300px;
   margin-top: 10px;
 `;
-export default function PostTweetForm() {
+export default function UploadPostForm() {
   const user = auth.currentUser;
   const MAX_FILE_SIZE_MB = 5 * 1024 * 1024;
   const [isLoding, setLoading] = useState(false);
@@ -103,7 +103,8 @@ export default function PostTweetForm() {
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    /*
+        console.log("not modal - file change");
+        /*
         input은 복수의 파일을 업로드하게 해준다. 
         그러기에 하나의 파일만 얻기위해서 길이가 1이고 파일이 존재할 떄 file의 값을 files[0]으로 바꾼다.
         */
@@ -118,7 +119,6 @@ export default function PostTweetForm() {
           setImagePreview(reader.result as string);
         };
         reader.readAsDataURL(files[0]);
-        console.log("not modal" + imagePreview);
       }
     }
   };
@@ -160,10 +160,7 @@ export default function PostTweetForm() {
       setTweet("");
     }
   };
-  const closePostForm = () => {
-    props.closePostForm();
-  };
-
+   
   return (
     <Wrapper>
       <Form onSubmit={onSubmit}>
@@ -188,7 +185,7 @@ export default function PostTweetForm() {
                 placeholder="What's happening?"
               />
               {imagePreview && (
-                <PreviewImage src={imagePreview} alt="Preview" />
+                <PreviewImage className="not-modal" src={imagePreview} alt="Preview" />
               )}
             </FormRow>
             <FormRow
@@ -212,7 +209,7 @@ export default function PostTweetForm() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-6"
+                    className="size-6"
                   >
                     <path
                       stroke-linecap="round"
@@ -228,7 +225,7 @@ export default function PostTweetForm() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-6"
+                    className="size-6"
                   >
                     <path
                       stroke-linecap="round"

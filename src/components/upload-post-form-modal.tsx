@@ -102,7 +102,23 @@ const ModalPreviewImage = styled.img`
   max-height: 300px;
   margin-top: 10px;
 `;
-export default function PostTweetFormModal(props) {
+const AttachEmojiButton = styled.div`
+  padding: 10px 10px;
+  color: var(--color-yellow);
+  text-align: end;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: var(--color-yellow);
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`
+export default function UploadPostFormModal(props) {
   const user = auth.currentUser;
   const MAX_FILE_SIZE_MB = 5 * 1024 * 1024;
   const [isLoding, setLoading] = useState(false);
@@ -128,11 +144,7 @@ export default function PostTweetFormModal(props) {
     adjustTextareaHeight(); // 입력할 때마다 높이 조절
   };
   const onModalFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    /*
-        input은 복수의 파일을 업로드하게 해준다. 
-        그러기에 하나의 파일만 얻기위해서 길이가 1이고 파일이 존재할 떄 file의 값을 files[0]으로 바꾼다.
-        */
+    console.log("modal - file change");
     const { files } = e.target;
     if (files && files.length === 1) {
       if (files[0].size >= MAX_FILE_SIZE_MB) {
@@ -231,20 +243,19 @@ export default function PostTweetFormModal(props) {
                 placeholder="What's happening?"
               />
               {modalImagePreview && (
-                <ModalPreviewImage src={modalImagePreview} alt="Preview" />
+                <ModalPreviewImage className="modal" src={modalImagePreview} alt="Preview" />
               )}
             </FormRow>
             <FormRow
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <div>
-                <AttachFileInput
+              <div style={{display:"flex"}}>
+                <AttachFileInput id="modal-file"
                   onChange={onModalFileChange}
-                  id="file"
                   type="file"
                   accept="image/*"
                 />
-                <AttachFileButton htmlFor="file">
+                <AttachFileButton htmlFor="modal-file">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -260,7 +271,7 @@ export default function PostTweetFormModal(props) {
                     />
                   </svg>
                 </AttachFileButton>
-                <AttachFileButton>
+                <AttachEmojiButton>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -275,7 +286,7 @@ export default function PostTweetFormModal(props) {
                       d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
                     />
                   </svg>
-                </AttachFileButton>
+                </AttachEmojiButton>
               </div>
               <SubmitBtn
                 type="submit"
