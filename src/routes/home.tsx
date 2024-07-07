@@ -1,8 +1,9 @@
-import UploadPostForm from "../components/upload-post-form";
+import UploadPostForm from "../components/upload-post/upload-post-form";
 import { styled } from "styled-components";
 import Timeline from "../components/timeline";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
+import Header from "../components/layout/header";
+import Sidebar from "../components/layout/sidebar";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   display: grid;
@@ -16,12 +17,19 @@ const Main = styled.div`
   flex-direction: column;
 `;
 export default function Home() {
+  const [modifyMode, setModifyMode] = useState(false);
   return (
     <Wrapper>
       <Main>
         <Header title="Home" />
-        <UploadPostForm />
-        <Timeline></Timeline>
+        {
+        modifyMode?
+        null:
+        <div>
+          <UploadPostForm />
+          <Timeline></Timeline>
+        </div>
+          }
       </Main>
       <Sidebar />
     </Wrapper>

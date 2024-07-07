@@ -1,9 +1,9 @@
 import { Outlet, Link } from "react-router-dom";
 import { styled } from "styled-components";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import UploadPostFormModal from "./upload-post-form-modal";
+import UploadPostFormModal from "../upload-post/upload-post-form-modal";
 
 //Board를 하나 더 두는 이유. Board가 전체판, Wrapper는 패딩이 있는 상태의 판 = 이 안에 요소들이 들어감
 //Board가 없으면 스크롤바가 Wrapper에게 생겨 원하는 방식으로 생성이 안된다.

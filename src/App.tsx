@@ -3,7 +3,7 @@ import { createGlobalStyle, styled } from "styled-components";
 import reset from "styled-reset";
 import { auth } from "./firebase.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Layout from "./components/layout";
+import Layout from "./components/layout/layout.tsx";
 import Home from "./routes/home.tsx";
 import Profile from "./routes/profile.tsx";
 import Login from "./routes/login.tsx";
