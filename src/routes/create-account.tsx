@@ -40,6 +40,7 @@ export default function CreateAccount(){
             //사용자 이름 업데이트
             await updateProfile(credentials.user,{
                 displayName:name,
+                photoURL:null,
             })
             //리다이렉션
             navigate("/");

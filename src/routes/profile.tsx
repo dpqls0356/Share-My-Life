@@ -13,8 +13,9 @@ import {
   where,
 } from "firebase/firestore";
 
-import { ITweet } from "../components/timeline";
-import Tweet from "../components/post";
+import { IPost } from "../components/timeline";
+import Post from "../components/post";
+import Header from "../components/layout/header";
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const AvatarUpload = styled.label`
   overflow: hidden;
   height: 80px;
   border-radius: 50%;
-  background-color: #1b9bf0;
+  background-color: black;
   color: white;
   cursor: pointer;
 `;
@@ -40,11 +41,11 @@ const AvatarInput = styled.input`
 const Name = styled.p`
   font-size: 22px;
 `;
-const Tweets = styled.div``;
+const Posts = styled.div``;
 export default function Profile() {
   const user = auth.currentUser;
   const [avatar, setAvatar] = useState(user?.photoURL);
-  const [tweets, setTweets] = useState<ITweet[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!user) return;
@@ -59,33 +60,37 @@ export default function Profile() {
       setAvatar(avatarUrl);
     }
   };
-  const fetchTweets = async () => {
+  const fetchPosts = async () => {
     //firebase가 예상치 못한 필터이기에 알려야한다. -> 인덱스 설정하러가기
-    const tweetQuery = query(
-      collection(db, "tweets"),
+    const postQuery = query(
+      collection(db, "posts"),
       where("userId", "==", user?.uid),
       orderBy("createdAt", "desc"),
       limit(25)
     );
-    const snapshot = await getDocs(tweetQuery);
-    const tweetsInDB = snapshot.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, photo } = doc.data();
+    const snapshot = await getDocs(postQuery);
+    const postsInDB = snapshot.docs.map((doc) => {
+      const { post, createdAt, userId, username, photo, userTag, likes,userphoto } = doc.data();
       return {
-        tweet,
-        createdAt,
-        userId,
-        username,
-        photo,
-        id: doc.id,
+            post,
+            createdAt,
+            userId,
+            username,
+            photo,
+            id: doc.id, //doc의 id는 data에 포함되지않기에 따로 빼와야한다.
+            userTag,
+            likes,
+            userphoto,
       };
     });
-    setTweets(tweetsInDB);
+    setPosts(postsInDB);
   };
   useEffect(() => {
-    fetchTweets();
+    fetchPosts();
   });
   return (
     <Wrapper>
+       <Header title="Profile" />
       <AvatarUpload htmlFor="avatar">
         {Boolean(avatar) ? (
           <AvatarImg src={avatar || ""} />
@@ -111,11 +116,11 @@ export default function Profile() {
         accept="image/*"
       />
       <Name>{user?.displayName ?? "Anoymous"}</Name>
-      <Tweets>
-        {tweets.map((tweet) => (
-          <Tweet key={tweet.id} {...tweet} />
+      <Posts>
+        {posts.map((post) => (
+          <Post key={post.id} {...post} />
         ))}
-      </Tweets>
+      </Posts>
     </Wrapper>
   );
 }

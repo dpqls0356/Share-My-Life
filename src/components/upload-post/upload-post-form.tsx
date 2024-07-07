@@ -14,10 +14,17 @@ const Form = styled.form`
 `;
 const FormRow = styled.div``;
 const FormCol = styled.div``;
-const UserPhoto = styled.img`
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+const UserPhoto = styled.div`
+  img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+  svg{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -133,6 +140,7 @@ export default function UploadPostForm() {
       //컬렉션, 경로에 doc을 만들지 설정하고 넣을 데이터를 보낸다.
       // tweets에  고유 아이디를 가지는 tweet들이 생성
       const doc = await addDoc(collection(db, "posts"), {
+        userphoto : user.photoURL,
         post,
         createdAt: Date.now(),
         username: user.displayName || "Anonymous",
@@ -170,9 +178,15 @@ export default function UploadPostForm() {
         >
           <FormCol>
             {user?.photoURL ? (
-              <UserPhoto src={user.photoURL}></UserPhoto>
+              <UserPhoto>
+                <img src={user.photoURL}/>
+              </UserPhoto>
             ) : (
-              <UserPhoto></UserPhoto>
+              <UserPhoto>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+              </UserPhoto>
             )}
           </FormCol>
           <FormCol style={{ flex: "1" }}>

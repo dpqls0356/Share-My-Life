@@ -1,4 +1,4 @@
-import { deleteDoc, doc,addDoc, collection, updateDoc  } from "firebase/firestore";
+import { getDoc,deleteDoc, doc,addDoc, collection, updateDoc  } from "firebase/firestore";
 import { auth, db, storage } from "../firebase";
 import { IPost } from "./timeline";
 import styled from "styled-components";
@@ -71,15 +71,18 @@ const PostingSetting = styled.div`
 const Btn = styled.div`
     padding: 5px 20px 5px 3px;
 `
+
 //
 const Form = styled.form`
 `;
 const FormRow = styled.div``;
 const FormCol = styled.div``;
-const UserPhoto = styled.img`
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+const UserPhoto = styled.div`
+  img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -122,7 +125,7 @@ const AttachFileInput = styled.input`
   display: none;
 `;
 
-const SubmitBtn = styled.input`
+const ModifyBtn = styled.button`
   padding: 5px 10px;
   color: white;
   text-align: center;
@@ -143,6 +146,7 @@ const PreviewImage = styled.img`
 
 export default function Post(postInfo: IPost) {
   const {
+  userphoto,
   username,
     photo,
     userId,
@@ -153,6 +157,7 @@ export default function Post(postInfo: IPost) {
   } = postInfo;
   const user = auth.currentUser;
   const date = new Date(createdAt);
+
   // 년, 월, 일로 포맷팅
   const year = date.getFullYear();
   const month = ("" + (date.getMonth() + 1)).slice(-2); // 0 기반 월을 1부터 시작하게 하고 두 자리 숫자로 변환
@@ -161,6 +166,7 @@ export default function Post(postInfo: IPost) {
   const [isHidden,setIsHidden] = useState(true);
   const [modifyMode,setModifyMode] = useState(false);
   const controllSettingBlock =()=>{
+    console.log(postInfo);
     setIsHidden(current=>!current);
   }
   const controllerModifyMode = ()=>{
@@ -174,7 +180,7 @@ export default function Post(postInfo: IPost) {
         await deleteDoc(doc(db, "posts", id));
         //사진이 있는 경우 삭제 -> 사용자id와 일치하는 곳 중에 tweet id가 일치하면된다.
         if (photo) {
-            const photoRef = ref(storage, `tweet/${user.uid}/${id}`);
+            const photoRef = ref(storage, `posts/${user.uid}/${id}`);
             await deleteObject(photoRef);
         }
         } catch (e) {
@@ -227,7 +233,7 @@ export default function Post(postInfo: IPost) {
       }
     }
   };
-  const onModify = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onModify = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     console.log("modify")
     e.preventDefault();
     if (!user || isLoding || post === "") {
@@ -263,8 +269,10 @@ export default function Post(postInfo: IPost) {
   return (
     <Wrapper>
       <PostCol>
-        {user?.photoURL ? (
-          <img className="user-photo" src={user?.photoURL} />
+        {userphoto? (
+          <UserPhoto>
+            <img src={userphoto}/>
+          </UserPhoto>
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -372,7 +380,7 @@ export default function Post(postInfo: IPost) {
               <div className="post-text">{post}</div>
               {photo ? (
                 <div className="post-photo">
-                  <img src={photo}></img>
+                  <img src={photo}/>
                 </div>
               ) : null}
             </div>
@@ -426,11 +434,11 @@ export default function Post(postInfo: IPost) {
                         </svg>
                 </AttachFileButton>
               </div>
-              <SubmitBtn
+              <ModifyBtn
                 onClick={onModify}
-                type="submit"
-                value={isLoding ? "Modifying..." : "Modify"}
-              />
+              >
+                {isLoding ? "Modifying..." : "Modify"}
+              </ModifyBtn>
           </FormRow>:
           <PostRow
             style={{

@@ -12,6 +12,7 @@ import { db } from "../firebase";
 import Post from "./post";
 import { Unsubscribe } from "firebase/auth";
 export interface IPost {
+  userphoto : string,
   id: string;
   photo?: string; //필수가 아닐때 ?를 붙이기
   post: string;
@@ -47,6 +48,7 @@ flex: 1;
 //현재 페이지에 대한 정보를 받아 알맞는 쿼리를 보내 데이터 가져오기
 //홈 -> 최신글 , 프로필 -> 내가 쓴 글 이런식으로 ???
 export default function Timeline() {
+
   const [posts, setPost] = useState<IPost[]>([]);
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
@@ -73,7 +75,7 @@ export default function Timeline() {
       unsubscribe = await onSnapshot(postsQuery, (snapshot) => {
         //snapshot은 크기, 쿼리, 문서등의 변경사항을 볼 수 있다.
         const PostsInDB = snapshot.docs.map((doc) => {
-          const { post, createdAt, userId, username, photo, userTag, likes } =
+          const { post, createdAt, userId, username, photo, userTag, likes,userphoto } =
             doc.data(); //doc의 data를 가져오는것
           return {
             post,
@@ -84,6 +86,7 @@ export default function Timeline() {
             id: doc.id, //doc의 id는 data에 포함되지않기에 따로 빼와야한다.
             userTag,
             likes,
+            userphoto,
           };
         });
         setPost(PostsInDB);
