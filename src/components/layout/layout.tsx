@@ -20,12 +20,14 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 const Menu = styled.div`
+  background-color: var(--begie-color);
   height: 100vh;
   display: grid;
   grid-template-rows: 0.5fr 2fr;
   position: sticky;
   top: 0px;
   z-index: 1;
+  padding-right: 20px;
 `;
 const Header = styled.div`
   padding-left: 20px;
@@ -37,18 +39,23 @@ const Nav = styled.div`
 `;
 
 const NavItem = styled.div`
+  padding:0px 10px;
   width: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
   border: 2px solid 1d9bf0;
   height: 50px;
-  border-radius: 50%;
+  border-radius: 30px;
   font-weight: 700;
+  margin-bottom: 10px;
+  &:hover{
+    background-color: var(--dark-green-color);
+    color:white;
+  }
   svg {
     width: 30px;
   }
-  margin-bottom: 10px;
 `;
 const StyledLink = styled(Link)`
   width: 100%;
@@ -88,9 +95,10 @@ const UserTag = styled.div`
   font-size: 13px;
 `;
 const PostFormOpenBtn = styled.button`
-  background-color: var(--color-yellow);
-  width: 90%;
-  padding: 10px 30px;
+  background-color: var(--brown-color);
+  color:white;
+  width: 100%;
+  padding: 20px 30px;
   font-size: 15px;
   font-weight: 900;
   border: none;

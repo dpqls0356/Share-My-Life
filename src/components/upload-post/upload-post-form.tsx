@@ -6,13 +6,14 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Wrapper = styled.div`
   width: 100%;
-  border-bottom: 1px solid var(--color-yellow);
+  border-bottom: 4px solid var(  --dark-green-color);
 `;
 
 const Form = styled.form`
   padding: 10px 20px;
 `;
-const FormRow = styled.div``;
+const FormRow = styled.div`
+`;
 const FormCol = styled.div``;
 const UserPhoto = styled.div`
   img{
@@ -40,7 +41,7 @@ const TextArea = styled.textarea`
   }
   &:focus {
     outline: none;
-    border-color: var(--color-yellow);
+    border-color: var(  --dark-green-color);
   }
   width: 100%;
   overflow: hidden; /* 스크롤바 숨김 */
@@ -48,14 +49,14 @@ const TextArea = styled.textarea`
 
 const AttachFileButton = styled.label`
   padding: 10px 10px;
-  color: var(--color-yellow);
+  color: var(  --dark-green-color);
   text-align: end;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   &:hover {
-    color: var(--color-yellow);
+    color: var(  --dark-green-color);
   }
   svg {
     width: 20px;
@@ -72,7 +73,7 @@ const SubmitBtn = styled.input`
   text-align: center;
   border-radius: 20px;
   border: none;
-  background-color: var(--color-yellow);
+  background-color: var(  --dark-green-color);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;

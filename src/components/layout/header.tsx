@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 const Title = styled.div`
   padding: 20px;
-  border-bottom: 1px solid var(--color-yellow);
+  color:var(  --brown-color);
   font-weight: 700;
 `;
 

@@ -10,8 +10,8 @@ const Wrapper = styled.div`
   grid-template-columns: 3fr 1.3fr;
 `;
 const Main = styled.div`
-  border-left: 1px solid var(--color-yellow);
-  border-right: 1px solid var(--color-yellow);
+  border-left: 4px solid var(--dark-green-color);
+  border-right: 4px solid var(--dark-green-color);
   width: 100%;
   display: flex;
   flex-direction: column;

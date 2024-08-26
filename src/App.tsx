@@ -72,9 +72,10 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box; 
   } 
   :root{
-  --color-yellow: #fce364;
-  --color-gray:#F0F0F0;
-  --color-dark_gray:#d8d8d8;
+  --brown-color:#4b3226;
+  --dark-green-color:#AAB396;
+  --light-green-color:#F7EED3;
+  --begie-color:#FFF8E8;
   
 }
 body{
