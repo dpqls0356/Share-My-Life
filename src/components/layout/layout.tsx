@@ -4,7 +4,7 @@ import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import UploadPostFormModal from "../upload-post/upload-post-form-modal";
-
+import Sidebar from "./sidebar";
 //Board를 하나 더 두는 이유. Board가 전체판, Wrapper는 패딩이 있는 상태의 판 = 이 안에 요소들이 들어감
 //Board가 없으면 스크롤바가 Wrapper에게 생겨 원하는 방식으로 생성이 안된다.
 const Board = styled.div`
@@ -13,14 +13,13 @@ const Board = styled.div`
 `;
 const Wrapper = styled.div`
   overflow-y: auto;
-  padding: 0px 10%;
+  padding: 0px 7%;
   display: grid;
   grid-template-columns: 1fr 5fr;
   width: 100%;
   height: 100vh;
 `;
 const Menu = styled.div`
-  background-color: var(--begie-color);
   height: 100vh;
   display: grid;
   grid-template-rows: 0.5fr 2fr;
@@ -31,7 +30,7 @@ const Menu = styled.div`
 `;
 const Header = styled.div`
   padding-left: 20px;
-  padding-top: 30px;
+  padding-top: 20px;
 `;
 const Nav = styled.div`
   padding-left: 20px;
@@ -39,19 +38,18 @@ const Nav = styled.div`
 `;
 
 const NavItem = styled.div`
-  padding:0px 10px;
+  padding: 0px 10px;
   width: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
-  border: 2px solid 1d9bf0;
   height: 50px;
   border-radius: 30px;
   font-weight: 700;
   margin-bottom: 10px;
-  &:hover{
-    background-color: var(--dark-green-color);
-    color:white;
+  &:hover {
+    background-color: var(--color-dark-green);
+    color: white;
   }
   svg {
     width: 30px;
@@ -95,8 +93,8 @@ const UserTag = styled.div`
   font-size: 13px;
 `;
 const PostFormOpenBtn = styled.button`
-  background-color: var(--brown-color);
-  color:white;
+  background-color: var(--color-brown);
+  color: white;
   width: 100%;
   padding: 20px 30px;
   font-size: 15px;
@@ -107,8 +105,24 @@ const PostFormOpenBtn = styled.button`
 `;
 const Line = styled.div`
   height: 1px;
+  margin-left: 5%;
+  margin-bottom: 10px;
   width: 90%;
-  background-color: var(--color-yellow);
+  background-color: var(--color-brown);
+`;
+
+const View = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1.3fr;
+`;
+const Main = styled.div`
+  border-left: 1px solid var(--color-dark-green);
+  border-right: 1px solid var(--color-dark-green);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  & > .main {
+  }
 `;
 export default function Layout() {
   const user = auth.currentUser;
@@ -302,11 +316,14 @@ export default function Layout() {
             </MinProfileCol>
           </MiniProfile>
         </Menu>
-        <Outlet />
+        <View>
+          <Main>
+            <Outlet />
+          </Main>
+          <Sidebar />
+        </View>
         {isShowPostForm ? (
-          <UploadPostFormModal
-            closePostForm={setIsShowPostForm}
-          />
+          <UploadPostFormModal closePostForm={setIsShowPostForm} />
         ) : null}
       </Wrapper>
     </Board>

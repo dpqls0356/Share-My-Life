@@ -1,9 +1,11 @@
 import { styled } from "styled-components";
 
 const Title = styled.div`
+  font-size: 25px;
   padding: 20px;
-  color:var(  --brown-color);
+  color: var(--color-brown);
   font-weight: 700;
+  border-bottom: 1px solid var(--color-dark-green);
 `;
 
 // 1. Props 인터페이스 정의

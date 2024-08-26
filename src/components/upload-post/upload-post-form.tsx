@@ -6,22 +6,21 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Wrapper = styled.div`
   width: 100%;
-  border-bottom: 4px solid var(  --dark-green-color);
+  border-bottom: 1px solid var(--color-dark-green);
 `;
 
 const Form = styled.form`
   padding: 10px 20px;
 `;
-const FormRow = styled.div`
-`;
+const FormRow = styled.div``;
 const FormCol = styled.div``;
 const UserPhoto = styled.div`
-  img{
+  img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
   }
-  svg{
+  svg {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -41,7 +40,7 @@ const TextArea = styled.textarea`
   }
   &:focus {
     outline: none;
-    border-color: var(  --dark-green-color);
+    border-color: var(--color-dark-green);
   }
   width: 100%;
   overflow: hidden; /* 스크롤바 숨김 */
@@ -49,14 +48,14 @@ const TextArea = styled.textarea`
 
 const AttachFileButton = styled.label`
   padding: 10px 10px;
-  color: var(  --dark-green-color);
+  color: var(--color-dark-green);
   text-align: end;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   &:hover {
-    color: var(  --dark-green-color);
+    color: var(--color-dark-green);
   }
   svg {
     width: 20px;
@@ -73,7 +72,7 @@ const SubmitBtn = styled.input`
   text-align: center;
   border-radius: 20px;
   border: none;
-  background-color: var(  --dark-green-color);
+  background-color: var(--color-brown);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -111,7 +110,7 @@ export default function UploadPostForm() {
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        /*
+    /*
         input은 복수의 파일을 업로드하게 해준다. 
         그러기에 하나의 파일만 얻기위해서 길이가 1이고 파일이 존재할 떄 file의 값을 files[0]으로 바꾼다.
         */
@@ -141,7 +140,7 @@ export default function UploadPostForm() {
       //컬렉션, 경로에 doc을 만들지 설정하고 넣을 데이터를 보낸다.
       // tweets에  고유 아이디를 가지는 tweet들이 생성
       const doc = await addDoc(collection(db, "posts"), {
-        userphoto : user.photoURL,
+        userphoto: user.photoURL,
         post,
         createdAt: Date.now(),
         username: user.displayName || "Anonymous",
@@ -162,15 +161,13 @@ export default function UploadPostForm() {
         setImagePreview(null);
       }
       setPost("");
-    } 
-    catch (e) {
+    } catch (e) {
       console.log(e);
     } finally {
       setLoading(false);
-      
     }
   };
-   
+
   return (
     <Wrapper>
       <Form onSubmit={onSubmit}>
@@ -180,12 +177,23 @@ export default function UploadPostForm() {
           <FormCol>
             {user?.photoURL ? (
               <UserPhoto>
-                <img src={user.photoURL}/>
+                <img src={user.photoURL} />
               </UserPhoto>
             ) : (
               <UserPhoto>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
                 </svg>
               </UserPhoto>
             )}
