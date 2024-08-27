@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 
 const Title = styled.div`
+  width: 100%;
   font-size: 25px;
   padding: 20px;
   color: var(--color-brown);

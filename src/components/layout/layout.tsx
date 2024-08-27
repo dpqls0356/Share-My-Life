@@ -21,8 +21,8 @@ const Wrapper = styled.div`
 `;
 const Menu = styled.div`
   height: 100vh;
-  display: grid;
-  grid-template-rows: 0.5fr 2fr;
+  display: flex;
+  flex-direction: column;
   position: sticky;
   top: 0px;
   z-index: 1;
@@ -31,8 +31,11 @@ const Menu = styled.div`
 const Header = styled.div`
   padding-left: 20px;
   padding-top: 20px;
+  width: 100%;
+  height: fit-content;
 `;
 const Nav = styled.div`
+  flex: 1;
   padding-left: 20px;
   width: 100%;
 `;
